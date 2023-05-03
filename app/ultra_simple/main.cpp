@@ -35,12 +35,10 @@
 #define _countof(_Array) (int)(sizeof(_Array) / sizeof(_Array[0]))
 #endif
 
-/*
 #ifdef _WIN32
 #include <Windows.h>
 #define delay(x)   ::Sleep(x)
 #else
-*/
 #include <unistd.h>
 static inline void delay(sl_word_size_t ms){
     while (ms>=1000){
@@ -50,7 +48,7 @@ static inline void delay(sl_word_size_t ms){
     if (ms!=0)
         usleep(ms*1000);
 }
-//#endif
+#endif
 
 using namespace sl;
 
@@ -154,15 +152,14 @@ int main(int argc, const char * argv[]) {
 	if(opt_channel_type == CHANNEL_TYPE_SERIALPORT)
 	{
 		if (!opt_channel_param_first) {
-/*#ifdef _WIN32
+#ifdef _WIN32
 		// use default com port
 		opt_channel_param_first = "\\\\.\\com3";
 #elif __APPLE__
 		opt_channel_param_first = "/dev/tty.SLAB_USBtoUART";
 #else
-*/
-            opt_channel_param_first = "/dev/ttyUSB0";
-//#endif
+		opt_channel_param_first = "/dev/ttyUSB0";
+#endif
 		}
 	}
 
