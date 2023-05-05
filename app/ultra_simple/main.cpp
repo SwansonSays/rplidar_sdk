@@ -50,9 +50,11 @@ static inline void delay(sl_word_size_t ms){
 }
 #endif
 
-using namespace sl;
+#include <sys/mman.h>
+#include <sys/stat.h>        /* For mode constants */
+#include <fcntl.h>           /* For O_* constants */
 
-#define SHM_NAME lidar
+using namespace sl;
 
 
 struct lidar_data {
@@ -274,9 +276,11 @@ int main(int argc, const char * argv[]) {
     // start scan...
     drv->startScan(0,1);
 
-    int shm_fd = shm_open(SHM_NAME, O_CREATE | O_RDWR, 0666);
+    const char* name = "SHARED_MEMORY";
+
+    int shm_fd = shm_open(name, O_CREATE | O_RDWR, 0666);
     ftruncate(shm_fd, sizeof(lidar_data));
-    struct lidar_data* data = mmap(Null, sizeof(lidar_data), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    struct lidar_data* data = mmap(NULL, sizeof(lidar_data), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
 
     // fetech result and print it out...
     while (1) {
