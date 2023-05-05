@@ -7,7 +7,7 @@ struct lidar_data {
     float theta;
     float distance;
     int quality;
-};
+}lidar_data;
 
 int main(int argc, char *argv[]) {
     const char* name = "SHARED_MEMORY";
