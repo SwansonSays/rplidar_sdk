@@ -10,9 +10,10 @@ cd into rplidar_sdk/shm_test
 */
 
 #include <stdio.h>
-#include <sys/mman.h>
+#include <sys/mman.h>        /* For shm_open and mmap */
 #include <sys/stat.h>        /* For mode constants */
 #include <fcntl.h>           /* For O_* constants */
+#include <unistd.h>          /* For close */
 
 struct lidar_data {
     float theta;
