@@ -1,3 +1,14 @@
+/*
+run make in rplidar_sdk
+run make in rplidar_sdk/shm_test
+
+cd into rplidar_sdk/output/Linux/Release
+./ultra_simple --channel --serial /dev/ttyUSB0 115200
+
+cd into rplidar_sdk/shm_test
+./lidar_test
+*/
+
 #include <stdio.h>
 #include <sys/mman.h>
 #include <sys/stat.h>        /* For mode constants */
@@ -17,6 +28,11 @@ int main(int argc, char *argv[]) {
     while (1) {
         printf("THETA [%3.2f] | DISTANCE [%08.2f] | QUALITY [%d]\n", data->theta, data->distance, data->quality);
     }
+
+
+    munmap(NULL, sizeof(*data));
+    shm_unlink(name);
+    close(shm_fd);
 
     return (0);
 }
