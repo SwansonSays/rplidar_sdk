@@ -52,6 +52,15 @@ static inline void delay(sl_word_size_t ms){
 
 using namespace sl;
 
+#define SHM_NAME lidar
+
+
+struct lidar_data {
+    float theta;
+    float distance;
+    int quality;
+};
+
 void print_usage(int argc, const char * argv[])
 {
     printf("Simple LIDAR data grabber for SLAMTEC LIDAR.\n"
@@ -265,6 +274,10 @@ int main(int argc, const char * argv[]) {
     // start scan...
     drv->startScan(0,1);
 
+    int shm_fd = shm_open(SHM_NAME, O_CREATE | O_RDWR, 0666);
+    ftruncate(shm_fd, sizeof(lidar_data));
+    struct lidar_data* data = mmap(Null, sizeof(lidar_data), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+
     // fetech result and print it out...
     while (1) {
         sl_lidar_response_measurement_node_hq_t nodes[8192];
@@ -280,6 +293,9 @@ int main(int argc, const char * argv[]) {
                     (nodes[pos].angle_z_q14 * 90.f) / 16384.f,
                     nodes[pos].dist_mm_q2/4.0f,
                     nodes[pos].quality >> SL_LIDAR_RESP_MEASUREMENT_QUALITY_SHIFT);
+                data->theta = (nodes[pos].angle_z_q14 * 90.f) / 16384.f;
+                data->distance = nodes[pos].dist_mm_q2 / 4.0f;
+                data->quality = nodes[pos].quality >> SL_LIDAR_RESP_MEASUREMENT_QUALITY_SHIFT;
             }
         }
 
