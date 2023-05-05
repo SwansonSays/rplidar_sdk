@@ -280,7 +280,7 @@ int main(int argc, const char * argv[]) {
 
     int shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
     ftruncate(shm_fd, sizeof(lidar_data));
-    struct lidar_data *data = mmap(NULL, sizeof(*data), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    struct lidar_data *data = (lidar_data*)mmap(NULL, sizeof(*data), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
 
     // fetech result and print it out...
     while (1) {
