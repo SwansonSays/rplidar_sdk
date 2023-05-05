@@ -318,6 +318,11 @@ int main(int argc, const char * argv[]) {
         delete drv;
         drv = NULL;
     }
+
+    munmap(NULL, sizeof(*data));
+    shm_unlink(name);
+    close(shm_fd);
+
     return 0;
 }
 
