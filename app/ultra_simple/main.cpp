@@ -278,9 +278,9 @@ int main(int argc, const char * argv[]) {
 
     const char* name = "SHARED_MEMORY";
 
-    int shm_fd = shm_open(name, O_CREATE | O_RDWR, 0666);
+    int shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
     ftruncate(shm_fd, sizeof(lidar_data));
-    struct lidar_data* data = mmap(NULL, sizeof(lidar_data), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    struct lidar_data *data = mmap(NULL, sizeof(*data), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
 
     // fetech result and print it out...
     while (1) {
