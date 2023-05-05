@@ -313,7 +313,7 @@ int main(int argc, const char * argv[]) {
 	if(opt_channel_type == CHANNEL_TYPE_SERIALPORT)
         drv->setMotorSpeed(0);
     // done!
-on_finished:
+//on_finished:
     if(drv) {
         delete drv;
         drv = NULL;
