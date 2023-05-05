@@ -246,7 +246,7 @@ int main(int argc, const char * argv[]) {
 				, opt_channel_param_first)):(fprintf(stderr, "Error, cannot connect to the specified ip addr %s.\n"
 				, opt_channel_param_first));
 		
-        goto on_finished;
+        //goto on_finished;
     }
 
     // print out the device serial number, firmware and hardware version number..
