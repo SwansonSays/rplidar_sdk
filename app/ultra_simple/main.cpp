@@ -266,7 +266,7 @@ int main(int argc, const char * argv[]) {
 
     // check health...
     if (!checkSLAMTECLIDARHealth(drv)) {
-        goto on_finished;
+        //goto on_finished;
     }
 
     signal(SIGINT, ctrlc);
