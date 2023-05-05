@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     struct lidar_data *data = mmap(NULL, sizeof(struct lidar_data), PROT_READ, MAP_SHARED, shm_fd, 0);
 
     while (1) {
-        printf("THETA [%3.2f] | DISTANCE [%8.2f] | QUALITY [%d]\n", data->theta, data->distance, data->quality);
+        printf("THETA [%3.2f] | DISTANCE [%08.2f] | QUALITY [%d]\n", data->theta, data->distance, data->quality);
     }
 
     return (0);
