@@ -28,7 +28,9 @@ int main(int argc, char *argv[]) {
 
     while (1) {
         if (data->quality > 0) {
-            printf("THETA [%3.2f] | DISTANCE [%08.2f] | QUALITY [%d]\n", data->theta, data->distance, data->quality);
+            if (data->theta < 5 && data->theta > 0) {
+                printf("THETA [%3.2f] | DISTANCE [%08.2f] | QUALITY [%d]\n", data->theta, data->distance, data->quality);
+            }
         }
     }
 
