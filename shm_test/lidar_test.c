@@ -14,6 +14,8 @@ cd into rplidar_sdk/shm_test
 #include <sys/stat.h>        /* For mode constants */
 #include <fcntl.h>           /* For O_* constants */
 #include <unistd.h>          /* For close */
+#include <string.h>
+#include <stdlib.h>
 
 struct lidar_data {
     float theta;
@@ -25,11 +27,13 @@ int main(int argc, char *argv[]) {
     const char* name = "SHARED_MEMORY";
     int shm_fd = shm_open(name, O_RDONLY, 0666);
     struct lidar_data *data = mmap(NULL, sizeof(struct lidar_data), PROT_READ, MAP_SHARED, shm_fd, 0);
+    struct lidar_data *temp_data = malloc(sizeof(struct lidar_data));
 
     while (1) {
-        if (data->quality > 0) {
-            if (data->theta < 5 && data->theta > 0) {
-                printf("THETA [%3.2f] | DISTANCE [%08.2f] | QUALITY [%d]\n", data->theta, data->distance, data->quality);
+	memcpy(temp_data, data, sizeof(struct lidar_data));
+        if (temp_data->quality > 10 && temp_data->distance < 401 && temp_data->distance > 0) {
+            if (temp_data->theta > 337.5 || temp_data->theta < 22.5) {
+                printf("THETA [%f] | DISTANCE [%f] | QUALITY [%d]\n", temp_data->theta, temp_data->distance, temp_data->quality);
             }
         }
     }
